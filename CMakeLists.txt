@@ -15,14 +15,14 @@ target_compile_options(lob_warnings INTERFACE
 )
 
 add_library(lob_core
-  src/order_pool.cc
-  src/price_level.cc
-  src/order_book.cc
+  src/order_pool.cpp
+  src/price_level.cpp
+  src/order_book.cpp
 )
 target_include_directories(lob_core PUBLIC include)
 target_link_libraries(lob_core PRIVATE lob_warnings)
 
-add_executable(lob_main src/main.cc)
+add_executable(lob_main src/main.cpp)
 target_link_libraries(lob_main PRIVATE lob_core lob_warnings)
 
 add_subdirectory(tests)

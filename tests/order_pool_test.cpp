@@ -13,8 +13,8 @@ namespace {
 TEST(OrderPoolTest, CapacityMatchesConstructorArgument) {
   OrderPool pool(16);
 
-  EXPECT_EQ(pool.capacity(), 16u);
-  EXPECT_EQ(pool.free_count(), 16u);
+  EXPECT_EQ(pool.GetCapacity(), 16u);
+  EXPECT_EQ(pool.GetFreeCount(), 16u);
 }
 
 TEST(OrderPoolTest, AcquireReturnsNonNullAndDecrementsFreeCount) {
@@ -23,7 +23,7 @@ TEST(OrderPoolTest, AcquireReturnsNonNullAndDecrementsFreeCount) {
   Order* order = pool.Acquire();
 
   ASSERT_NE(order, nullptr);
-  EXPECT_EQ(pool.free_count(), 3u);
+  EXPECT_EQ(pool.GetFreeCount(), 3u);
 }
 
 TEST(OrderPoolTest, AcquireReturnsDistinctPointersEachTime) {
@@ -44,7 +44,7 @@ TEST(OrderPoolTest, AcquireOnExhaustedPoolReturnsNullptr) {
   pool.Acquire();
   pool.Acquire();
 
-  EXPECT_EQ(pool.free_count(), 0u);
+  EXPECT_EQ(pool.GetFreeCount(), 0u);
   EXPECT_EQ(pool.Acquire(), nullptr);
 }
 
@@ -54,7 +54,7 @@ TEST(OrderPoolTest, ReleaseIncrementsFreeCount) {
 
   pool.Release(order);
 
-  EXPECT_EQ(pool.free_count(), 2u);
+  EXPECT_EQ(pool.GetFreeCount(), 2u);
 }
 
 TEST(OrderPoolTest, ReleaseResetsOrderToDefaultState) {
@@ -85,13 +85,13 @@ TEST(OrderPoolTest, AcquireReleaseAcquireCycleReusesCapacity) {
 
   EXPECT_EQ(third, first);
   EXPECT_NE(second, third);
-  EXPECT_EQ(pool.free_count(), 0u);
+  EXPECT_EQ(pool.GetFreeCount(), 0u);
 }
 
 TEST(OrderPoolTest, ZeroCapacityPoolAlwaysReturnsNullptr) {
   OrderPool pool(0);
 
-  EXPECT_EQ(pool.capacity(), 0u);
+  EXPECT_EQ(pool.GetCapacity(), 0u);
   EXPECT_EQ(pool.Acquire(), nullptr);
 }
 

@@ -15,8 +15,8 @@ class OrderPool {
   Order* Acquire();
   void Release(Order* order);
 
-  std::size_t capacity() const;
-  std::size_t free_count() const;
+  std::size_t GetCapacity() const;
+  std::size_t GetFreeCount() const;
 
  private:
   std::vector<Order> storage_;

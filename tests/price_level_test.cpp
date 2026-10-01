@@ -10,9 +10,9 @@ namespace {
 TEST(PriceLevelTest, ConstructorSetsPriceAndStartsEmpty) {
   PriceLevel level(10050);
 
-  EXPECT_EQ(level.price_ticks(), 10050u);
-  EXPECT_EQ(level.total_quantity(), 0u);
-  EXPECT_TRUE(level.empty());
+  EXPECT_EQ(level.GetPriceTicks(), 10050u);
+  EXPECT_EQ(level.GetTotalQuantity(), 0u);
+  EXPECT_TRUE(level.IsEmpty());
 }
 
 TEST(PriceLevelTest, PushBackOnEmptyLevelIsNotEmpty) {
@@ -23,7 +23,7 @@ TEST(PriceLevelTest, PushBackOnEmptyLevelIsNotEmpty) {
 
   level.PushBack(&order);
 
-  EXPECT_FALSE(level.empty());
+  EXPECT_FALSE(level.IsEmpty());
 }
 
 TEST(PriceLevelTest, PushBackAccumulatesTotalQuantity) {
@@ -36,7 +36,7 @@ TEST(PriceLevelTest, PushBackAccumulatesTotalQuantity) {
   level.PushBack(&first);
   level.PushBack(&second);
 
-  EXPECT_EQ(level.total_quantity(), 80u);
+  EXPECT_EQ(level.GetTotalQuantity(), 80u);
 }
 
 TEST(PriceLevelTest, PopFrontReturnsOrdersInFifoOrder) {
@@ -71,7 +71,7 @@ TEST(PriceLevelTest, PopFrontDecrementsTotalQuantity) {
 
   level.PopFront();
 
-  EXPECT_EQ(level.total_quantity(), 20u);
+  EXPECT_EQ(level.GetTotalQuantity(), 20u);
 }
 
 TEST(PriceLevelTest, PopFrontOnSingleElementLevelEmptiesLevel) {
@@ -83,8 +83,8 @@ TEST(PriceLevelTest, PopFrontOnSingleElementLevelEmptiesLevel) {
   Order* popped = level.PopFront();
 
   EXPECT_EQ(popped, &order);
-  EXPECT_TRUE(level.empty());
-  EXPECT_EQ(level.total_quantity(), 0u);
+  EXPECT_TRUE(level.IsEmpty());
+  EXPECT_EQ(level.GetTotalQuantity(), 0u);
 }
 
 TEST(PriceLevelTest, PopFrontThenPushBackRelinksTailCorrectly) {
@@ -100,7 +100,7 @@ TEST(PriceLevelTest, PopFrontThenPushBackRelinksTailCorrectly) {
   second.remaining_quantity = 15;
   level.PushBack(&second);
 
-  EXPECT_FALSE(level.empty());
+  EXPECT_FALSE(level.IsEmpty());
   EXPECT_EQ(level.PopFront(), &second);
 }
 
@@ -131,7 +131,7 @@ TEST(PriceLevelTest, RemoveTailRelinksRemainingOrders) {
   level.Remove(&second);
 
   EXPECT_EQ(level.PopFront(), &first);
-  EXPECT_TRUE(level.empty());
+  EXPECT_TRUE(level.IsEmpty());
 }
 
 TEST(PriceLevelTest, RemoveMiddleRelinksNeighbors) {
@@ -161,7 +161,7 @@ TEST(PriceLevelTest, RemoveOnlyOrderEmptiesLevel) {
   bool now_empty = level.Remove(&order);
 
   EXPECT_TRUE(now_empty);
-  EXPECT_TRUE(level.empty());
+  EXPECT_TRUE(level.IsEmpty());
 }
 
 TEST(PriceLevelTest, RemoveDecrementsTotalQuantity) {
@@ -175,7 +175,7 @@ TEST(PriceLevelTest, RemoveDecrementsTotalQuantity) {
 
   level.Remove(&first);
 
-  EXPECT_EQ(level.total_quantity(), 20u);
+  EXPECT_EQ(level.GetTotalQuantity(), 20u);
 }
 
 TEST(PriceLevelTest, PushBackSetsOrderLevelBackPointer) {
@@ -248,7 +248,7 @@ TEST(PriceLevelTest, PushFrontOnEmptyLevelIsNotEmpty) {
 
   level.PushFront(&order);
 
-  EXPECT_FALSE(level.empty());
+  EXPECT_FALSE(level.IsEmpty());
 }
 
 TEST(PriceLevelTest, PushFrontOnEmptyLevelIsRetrievableViaPopFront) {
@@ -271,7 +271,7 @@ TEST(PriceLevelTest, PushFrontAccumulatesTotalQuantity) {
   level.PushFront(&first);
   level.PushFront(&second);
 
-  EXPECT_EQ(level.total_quantity(), 80u);
+  EXPECT_EQ(level.GetTotalQuantity(), 80u);
 }
 
 TEST(PriceLevelTest, PushFrontPlacesOrderAheadOfExistingOrders) {

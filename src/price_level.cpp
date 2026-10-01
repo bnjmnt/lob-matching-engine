@@ -13,7 +13,7 @@ PriceLevel::PriceLevel(std::uint64_t price_ticks)
       tail_(nullptr) {}
 
 void PriceLevel::PushBack(Order* order) {
-  if (empty()) {
+  if (IsEmpty()) {
     head_ = order;
   } else {
     tail_->next = order;
@@ -26,7 +26,7 @@ void PriceLevel::PushBack(Order* order) {
 }
 
 void PriceLevel::PushFront(Order* order) {
-  if (empty()) {
+  if (IsEmpty()) {
     tail_ = order;
   } else {
     head_->prev = order;
@@ -65,11 +65,11 @@ bool PriceLevel::Remove(Order* order) {
   }
   order->level = nullptr;
   total_quantity_ -= order->remaining_quantity;
-  return empty();
+  return IsEmpty();
 }
 
-bool PriceLevel::empty() const { return head_ == nullptr; }
-std::uint64_t PriceLevel::price_ticks() const { return price_ticks_; }
-std::uint64_t PriceLevel::total_quantity() const { return total_quantity_; }
+bool PriceLevel::IsEmpty() const { return head_ == nullptr; }
+std::uint64_t PriceLevel::GetPriceTicks() const { return price_ticks_; }
+std::uint64_t PriceLevel::GetTotalQuantity() const { return total_quantity_; }
 
 }  // namespace lob

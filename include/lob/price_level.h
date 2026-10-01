@@ -16,9 +16,9 @@ class PriceLevel {
   Order* PopFront();
   bool Remove(Order* order);
 
-  bool empty() const;
-  std::uint64_t price_ticks() const;
-  std::uint64_t total_quantity() const;
+  bool IsEmpty() const;
+  std::uint64_t GetPriceTicks() const;
+  std::uint64_t GetTotalQuantity() const;
 
  private:
   std::uint64_t price_ticks_;

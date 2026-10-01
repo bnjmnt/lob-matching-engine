@@ -30,7 +30,7 @@ std::expected<AddOrderResult, AddOrderFailure> OrderBook::AddOrder(
 
   bool rested = false;
   if (remaining > 0) {
-    if (!pool_.free_count()) {
+    if (!pool_.GetFreeCount()) {
       return std::unexpected(
           AddOrderFailure{AddOrderError::kPoolExhausted, std::move(trades)});
     }
@@ -119,7 +119,7 @@ std::uint32_t OrderBook::MatchAgainst(PriceLevelMap& opposite_side,
     resting->remaining_quantity -= trade_qty;
 
     trades.push_back(
-        Trade{resting->id, incoming_id, level->price_ticks(), trade_qty});
+        Trade{resting->id, incoming_id, level->GetPriceTicks(), trade_qty});
 
     if (resting->remaining_quantity > 0) {
       level->PushFront(resting);
@@ -128,7 +128,7 @@ std::uint32_t OrderBook::MatchAgainst(PriceLevelMap& opposite_side,
       pool_.Release(resting);
     }
 
-    if (level->empty()) {
+    if (level->IsEmpty()) {
       opposite_side.erase(opposite_side.begin());
     }
   }

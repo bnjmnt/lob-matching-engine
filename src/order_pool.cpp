@@ -25,8 +25,8 @@ void OrderPool::Release(Order* order) {
   free_list_.push_back(order);
 }
 
-std::size_t OrderPool::capacity() const { return storage_.size(); }
+std::size_t OrderPool::GetCapacity() const { return storage_.size(); }
 
-std::size_t OrderPool::free_count() const { return free_list_.size(); }
+std::size_t OrderPool::GetFreeCount() const { return free_list_.size(); }
 
 }  // namespace lob

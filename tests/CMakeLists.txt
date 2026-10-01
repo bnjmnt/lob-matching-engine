@@ -7,10 +7,10 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 add_executable(lob_tests
-  order_test.cc
-  order_pool_test.cc
-  price_level_test.cc
-  order_book_test.cc
+  order_test.cpp
+  order_pool_test.cpp
+  price_level_test.cpp
+  order_book_test.cpp
 )
 target_link_libraries(lob_tests PRIVATE lob_core lob_warnings GTest::gtest_main)
 

@@ -51,7 +51,7 @@ lob-matching-engine/
 │   ├── price_level.h     # FIFO queue of orders at one price
 │   ├── order_book.h      # Both sides of the book, matching, cancel, best bid/ask
 │   └── trade.h           # Trade, AddOrderResult, AddOrderFailure
-├── src/                  # Implementations + main.cc
+├── src/                  # Implementations + main.cpp
 └── tests/                # GoogleTest unit tests
 ```
 
